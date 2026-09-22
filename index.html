@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi árbol de flores 🌸</title>
+<style>
+/* =========================================================
+   🌸🌸🌸 PERSONALIZACIÓN VISUAL 🌸🌸🌸
+   
+   Puedes modificar estos valores sin tocar el resto.
+   ========================================================= */
+:root {
+    /* 🎨 FONDO */
+    --fondo-1: #FFC0CB;
+    --fondo-2: #ffddea;
+    /* 💗 COLOR DEL TEXTO */
+    --color-titulo: #9b3f68;
+    --color-texto: #704052;
+    /* 🌳 ÁRBOL */
+    --color-tronco: #70452f;
+    --color-rama: #70452f;
+    /* 🌱 SUELO */
+    --color-suelo: #b97959;
+    /* ✨ TAMAÑO GENERAL */
+    --tamano-arbol: 1;
+    /* 🌸 VELOCIDAD DE LAS FLORES */
+    --duracion-flores: 2.5s;
+}
+/* =========================================================
+   ⚙️ NO NECESITAS MODIFICAR DESDE AQUÍ HACIA ABAJO
+   ========================================================= */
+* {
+    box-sizing: border-box;
+}
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+body {
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.9), transparent 25%),
+        linear-gradient(
+            135deg,
+            var(--fondo-1),
+            var(--fondo-2)
+        );
+    font-family: Georgia, serif;
+    color: var(--color-texto);
+}
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+   ========================================================= */
+.pagina {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 30px;
+}
+/* =========================================================
+   🌳 ZONA DEL ÁRBOL
+   ========================================================= */
+.zona-arbol {
+    position: relative;
+    width: min(55vw, 600px);
+    height: min(75vh, 650px);
+    transform: scale(var(--tamano-arbol));
+    flex-shrink: 0;
+}
+/* =========================================================
+   🌱 SUELO
+   ========================================================= */
+.suelo {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 65%;
+    height: 12px;
+    background: var(--color-suelo);
+    border-radius: 50%;
+    opacity: .7;
+}
+/* =========================================================
+   🌳 TRONCO
+   ========================================================= */
+.tronco {
+    position: absolute;
+    bottom: 9%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 55px;
+    height: 46%;
+    background: var(--color-tronco);
+    border-radius: 45% 45% 15% 15%;
+    box-shadow:
+        inset 8px 0 rgba(255,255,255,.08),
+        inset -8px 0 rgba(0,0,0,.08);
+}
+/* =========================================================
+   🌿 RAMAS
+   ========================================================= */
+.rama {
+    position: absolute;
+    height: 18px;
+    background: var(--color-rama);
+    border-radius: 20px;
+    transform-origin: left center;
+}
+.rama-1 {
+    width: 38%;
+    left: 50%;
+    bottom: 40%;
+    transform: rotate(-35deg);
+}
+.rama-2 {
+    width: 35%;
+    right: 50%;
+    bottom: 48%;
+    transform-origin: right center;
+    transform: rotate(35deg);
+}
+.rama-3 {
+    width: 30%;
+    left: 50%;
+    bottom: 58%;
+    transform: rotate(-55deg);
+}
+.rama-4 {
+    width: 28%;
+    right: 50%;
+    bottom: 63%;
+    transform-origin: right center;
+    transform: rotate(55deg);
+}
+/* =========================================================
+   🌸 FLORES
+   ========================================================= */
+.flor {
+    position: absolute;
+    font-size: clamp(22px, 3vw, 40px);
+    opacity: 0;
+    pointer-events: none;
+    transform:
+        translate(
+            var(--inicio-x),
+            var(--inicio-y)
+        )
+        scale(.2)
+        rotate(180deg);
+    animation:
+        moverFlor
+        var(--duracion-flores)
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
+    animation-delay: var(--delay);
+    filter:
+        drop-shadow(
+            0 3px 3px rgba(0,0,0,.15)
+        );
+}
+@keyframes moverFlor {
+    0% {
+        opacity: 0;
+        transform:
+            translate(
+                var(--inicio-x),
+                var(--inicio-y)
+            )
+            scale(.2)
+            rotate(180deg);
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        transform:
+            translate(0,0)
+            scale(1)
+            rotate(0deg);
+    }
+}
+/* =========================================================
+   💗 MENSAJE
+   ========================================================= */
+.mensaje {
+    width: min(35vw, 420px);
+    text-align: center;
+    opacity: 0;
+    animation:
+        aparecerMensaje
+        2s ease forwards;
+    animation-delay: 4s;
+}
+.mensaje h1 {
+    margin: 0 0 25px;
+    font-size: clamp(32px, 5vw, 58px);
+    color: var(--color-titulo);
+}
+.mensaje p {
+    font-size: clamp(17px, 2vw, 23px);
+    line-height: 1.7;
+    margin: 14px 0;
+}
+@keyframes aparecerMensaje {
+    from {
+        opacity: 0;
+        transform:
+            translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform:
+            translateY(0);
+    }
+}
+/* =========================================================
+   ❤️ CORAZONES
+   ========================================================= */
+.corazon {
+    position: absolute;
+    font-size: 22px;
+    opacity: 0;
+    animation:
+        flotarCorazon
+        6s
+        linear
+        infinite;
+}
+@keyframes flotarCorazon {
+    0% {
+        opacity: 0;
+        transform:
+            translateY(30px)
+            scale(.7);
+    }
+    20% {
+        opacity: .8;
+    }
+    100% {
+        opacity: 0;
+        transform:
+            translateY(-100vh)
+            scale(1.2);
+    }
+}
+/* =========================================================
+   📱 MÓVIL
+   ========================================================= */
+@media (max-width: 750px) {
+    body {
+        overflow: auto;
+    }
+    .pagina {
+        min-height: 100vh;
+        height: auto;
+        flex-direction: column;
+        gap: 0;
+        padding-top: 10px;
+    }
+    .zona-arbol {
+        width: 95vw;
+        height: 60vh;
+        max-height: 520px;
+    }
+    .mensaje {
+        width: 90%;
+        padding-bottom: 30px;
+    }
+}
+</style>
+</head>
+<body>
+<!-- =====================================================
+     🌳 ÁRBOL
+     ===================================================== -->
+<div class="pagina">
+    <div class="zona-arbol">
+        <div class="suelo"></div>
+        <div class="tronco"></div>
+        <div class="rama rama-1"></div>
+        <div class="rama rama-2"></div>
+        <div class="rama rama-3"></div>
+        <div class="rama rama-4"></div>
+        <!-- 🌸 AQUÍ APARECERÁN LAS FLORES -->
+        <div id="flores"></div>
+    </div>
+    <!-- =================================================
+         💌 MENSAJE
+         ================================================= -->
+    <div class="mensaje">
+        <h1 id="titulo"></h1>
+        <div id="texto"></div>
+    </div>
+</div>
+<script>
+/* =========================================================
+   🌸🌸🌸 PERSONALIZACIÓN 🌸🌸🌸
+   ESTA ES LA PARTE QUE PUEDES CAMBIAR.
+   No necesitas tocar el resto del código.
+   ========================================================= */
+/* =========================================================
+   💗 TÍTULO
+   ========================================================= */
+const titulo = "Te amo";
+/* =========================================================
+   📝 TEXTO
+   =========================================================
+   Escribe cada frase entre comillas.
+   Puedes poner tantas como quieras.
+   Ejemplo:
+   const mensajes = [
+       "Primera frase",
+       "Segunda frase",
+       "Tercera frase"
+   ];
+   ========================================================= */
+const mensajes = [
+    "Queria tener un detalle contigo, ya lo sabias, aqui le tienes",
+    "Por cada flor que ves es un te amo que te quiero decir.",
+    "Desde el 17 de noviembre de 2023 y por siempre miniña, te amo"
+];
+/* =========================================================
+   🌸 FLORES
+   Puedes poner los emojis que quieras.
+   IMPORTANTE:
+   Puedes repetirlos.
+   ========================================================= */
+const floresDisponibles = [🌺🌸🌷🌼🌹🖤
+    "🌸",
+    "🌷",
+    "🌹",
+    "🌺",
+    "🌼",
+    "🌻"
+];
+/* =========================================================
+   🌸 NÚMERO DE FLORES
+   ========================================================= */
+const numeroDeFlores = 35;
+/* =========================================================
+   ❤️ NÚMERO DE CORAZONES
+   ========================================================= */
+const numeroDeCorazones = 12;
+/* =========================================================
+   ✨ VELOCIDAD
+   Número más pequeño = más rápido.
+   Número más grande = más lento.
+   ========================================================= */
+const velocidadFlores = 2.5;
+/* =========================================================
+   🌳 POSICIONES DEL ÁRBOL
+   Estas posiciones determinan dónde acaba cada flor.
+   Puedes modificarlas si algún día quieres cambiar
+   la forma de la copa.
+   ========================================================= */
+const posiciones = [
+    [20,20],
+    [30,15],
+    [40,18],
+    [50,12],
+    [60,17],
+    [70,23],
+    [15,30],
+    [25,28],
+    [35,25],
+    [45,23],
+    [55,25],
+    [65,28],
+    [78,32],
+    [12,40],
+    [22,38],
+    [32,35],
+    [42,34],
+    [52,36],
+    [62,38],
+    [72,40],
+    [84,42],
+    [18,48],
+    [28,45],
+    [38,43],
+    [48,45],
+    [58,44],
+    [68,47],
+    [78,50],
+    [25,56],
+    [35,53],
+    [45,51],
+    [55,53],
+    [65,55],
+    [75,57]
+];
+/* =========================================================
+   ⚙️ GENERAR FLORES
+   ========================================================= */
+const contenedorFlores =
+    document.getElementById("flores");
+for (
+    let i = 0;
+    i < numeroDeFlores;
+    i++
+) {
+    const flor =
+        document.createElement("div");
+    flor.className = "flor";
+    /*
+       Elegimos una flor aleatoria
+       de la lista que tú has escrito.
+    */
+    flor.textContent =
+        floresDisponibles[
+            Math.floor(
+                Math.random() *
+                floresDisponibles.length
+            )
+        ];
+    /*
+       Posición final.
+    */
+    const posicion =
+        posiciones[
+            i % posiciones.length
+        ];
+    flor.style.left =
+        posicion[0] + "%";
+    flor.style.top =
+        posicion[1] + "%";
+    /*
+       Cada flor empieza desde
+       un lugar diferente.
+    */
+    const inicioX =
+        (Math.random() * 1000 - 500)
+        + "px";
+    const inicioY =
+        (Math.random() * 1000 - 500)
+        + "px";
+    flor.style.setProperty(
+        "--inicio-x",
+        inicioX
+    );
+    flor.style.setProperty(
+        "--inicio-y",
+        inicioY
+    );
+    /*
+       Retraso aleatorio.
+    */
+    const delay =
+        (Math.random() * 3)
+        + "s";
+    flor.style.setProperty(
+        "--delay",
+        delay
+    );
+    /*
+       Velocidad.
+    */
+    flor.style.setProperty(
+        "--duracion-flores",
+        velocidadFlores + "s"
+    );
+    contenedorFlores.appendChild(flor);
+}
+/* =========================================================
+   💌 INSERTAR TEXTO
+   ========================================================= */
+document.getElementById("titulo")
+    .textContent = titulo;
+const contenedorTexto =
+    document.getElementById("texto");
+mensajes.forEach(
+    function(frase) {
+        const parrafo =
+            document.createElement("p");
+        parrafo.textContent =
+            frase;
+        contenedorTexto.appendChild(
+            parrafo
+        );
+    }
+);
+/* =========================================================
+   ❤️ CREAR CORAZONES
+   ========================================================= */
+for (
+    let i = 0;
+    i < numeroDeCorazones;
+    i++
+) {
+    const corazon =
+        document.createElement("div");
+    corazon.className =
+        "corazon";
+    corazon.textContent =
+        "❤️";
+    corazon.style.left =
+        Math.random() * 100 + "%";
+    corazon.style.bottom =
+        "-30px";
+    corazon.style.animationDelay =
+        Math.random() * 6 + "s";
+    document.body.appendChild(
+        corazon
+    );
+}
+</script>
+</body>
+</html>
